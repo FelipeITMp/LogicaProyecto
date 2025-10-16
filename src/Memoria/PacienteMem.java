@@ -1,0 +1,44 @@
+package Memoria;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import Clases.Paciente;
+import Contratos.IPaciente;
+
+public class PacienteMem implements IPaciente {
+    // Inicialización mínima + estáticos para compartir datos entre instancias
+    static Map<String, Paciente> pacientePorCodigo = new HashMap<>();
+    TreeMap<String, Paciente> PacientesPorNombre = new TreeMap<>();
+
+    public void AgregarPacientesPorNombre(){
+        for(Paciente p : pacientePorCodigo.values()){
+            PacientesPorNombre.put(p.getNombres().trim().toLowerCase(), p);
+        }
+    }
+
+    @Override
+    public Paciente.PacienteItem encontrarPorCodigo(String codigo){
+        if(!pacientePorCodigo.containsKey(codigo)){
+            throw new IllegalArgumentException("Paciente no encontrado");
+        }else{
+            var paciente = pacientePorCodigo.get(codigo);
+            return new Paciente.PacienteItem(paciente.getId(), paciente.getCedula(), paciente.getNombres());
+        }
+    }
+
+    @Override
+    public List<Paciente.PacienteItem> buscarPorNombre(String filtro){
+        List<Paciente.PacienteItem> listp = new ArrayList<>();
+        String filtroNormalizado = filtro.trim().toLowerCase();
+        for(Paciente p: PacientesPorNombre.values()){
+            if(p.getNombres().trim().toLowerCase().startsWith(filtroNormalizado)){
+                listp.add(new Paciente.PacienteItem(p.getId(), p.getCedula(), p.getNombres()));
+            }
+        }
+        return listp;
+    }
+}
