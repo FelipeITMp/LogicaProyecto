@@ -1,18 +1,15 @@
 package Memoria;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import Clases.Doctor;
 import Contratos.IDoctor;
 
 public class DoctorMem implements IDoctor {
-    // Inicialización mínima + estáticos para compartir datos entre instancias
+    // Mapa y Array para guardar en memoria
     public static Map<String, Doctor> doctorPorCodigo = new HashMap<>();
     public List<Doctor> doctoresOrdenNombre = new ArrayList<>();
+
 
     public void agregarDoctor_Nombre(Doctor d){
         doctoresOrdenNombre.add(d);
@@ -24,17 +21,23 @@ public class DoctorMem implements IDoctor {
         agregarDoctor_Nombre(d);
     }
 
+    //Usamos los metodos contenidos en las interfaces
+
+    //Buscamos los doctores por codigo y los devolvemos como DoctorItem
     @Override
     public Doctor.DoctorItem encontrarPorCodigo(String codigo){
-        if(!doctorPorCodigo.containsKey(codigo)){
+        var doctor = doctorPorCodigo.get(codigo);
+
+        if(doctor == null){
             throw new IllegalArgumentException("Doctor no encontrado");
-        }else{
-            var doctor = doctorPorCodigo.get(codigo);
-            String nombrecomp = doctor.getNombres()+" "+doctor.getApellidos();
-            return new Doctor.DoctorItem(doctor.getId(), nombrecomp, doctor.getEspecialidad());
         }
+
+        String nombrecomp = doctor.getNombres()+" "+doctor.getApellidos();
+        return new Doctor.DoctorItem(doctor.getId(), nombrecomp, doctor.getEspecialidad());
+
     }
 
+    //Listamos todos los doctores de forma ordenada por el nombre
     @Override
     public List<Doctor.DoctorItem> listarTodos(){
         ArrayList<Doctor.DoctorItem> doctores = new ArrayList<>();

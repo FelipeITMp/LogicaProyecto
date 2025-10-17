@@ -13,15 +13,18 @@ import java.util.Map;
 public class HistoriaMem implements IHistoria {
     private static int autoid = 1;
 
-    // Inicialización mínima + estáticos para compartir datos
+    //Maps para guardar la información
     static Map<Integer, Integer> historiaPorPaciente = new HashMap<>();
     static Map<Integer, Deque<HistoriaNota>> notasClinicasPorHistoria = new HashMap<>();
 
+    //Obtenemos la historia que estemos buscando, y en caso de no encontrarla creamos una
     @Override
     public int ObtenerOCrearHistoria(int pacienteId){
+        //En caso de encontrarla pasa él id de la historia
         if(historiaPorPaciente.containsKey(pacienteId)){
             return  historiaPorPaciente.get(pacienteId);
         }else{
+            //Sinó crea una historia con una cola adentro
             int idhistoria = autoid++;
             historiaPorPaciente.put(pacienteId, idhistoria);
             notasClinicasPorHistoria.put(idhistoria, new ArrayDeque<>());
@@ -29,6 +32,7 @@ public class HistoriaMem implements IHistoria {
         }
     }
 
+    //Obtenemos todas las notas de una historia especifíca como una lista
     @Override
     public List<HistoriaNota> listarNotas(int historiaId){
         if(!notasClinicasPorHistoria.containsKey(historiaId)){
@@ -37,6 +41,7 @@ public class HistoriaMem implements IHistoria {
         return new ArrayList<>(notasClinicasPorHistoria.get(historiaId));
     }
 
+    //Agregamos una nota
     @Override
     public int agregarNota(int historiaId, String alergias, String medicamentos, String motivoconsulta, String recomendaciones){
         HistoriaNota historiaNota = new HistoriaNota(historiaId, alergias, medicamentos, motivoconsulta, recomendaciones);

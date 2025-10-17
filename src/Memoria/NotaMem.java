@@ -13,10 +13,11 @@ import java.util.Map;
 public class NotaMem implements INota {
     private static int autoid = 1;
 
-    // Inicialización mínima + estáticos para compartir datos
+    // Mapas para guardar información
     static Map<Integer, Integer> notaIdPorPaciente = new HashMap<>();
     static Map<Integer, Deque<Notatxt>> notasTxtPorNota = new HashMap<>();
 
+    //Obtenemos una él id de una nota en caso de que exista sinó la creamos con una cola
     @Override
     public int ObtenerOCrearNota(int pacienteId){
         if(notaIdPorPaciente.containsKey(pacienteId)){
@@ -29,6 +30,7 @@ public class NotaMem implements INota {
         }
     }
 
+    //Obtiene las notas anexadas a un paciente
     @Override
     public List<Notatxt> listarNotas(int notaId){
         // Corrección: validar el contenedor correcto
@@ -38,6 +40,7 @@ public class NotaMem implements INota {
         return new ArrayList<>(notasTxtPorNota.get(notaId));
     }
 
+    //Agregamos una nota para un paciente
     @Override
     public int agregarNota(int notaId, String texto){
         if(!notasTxtPorNota.containsKey(notaId)){

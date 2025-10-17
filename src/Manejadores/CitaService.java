@@ -9,9 +9,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class CitaService {
+    // Creamos una constante y creamos una instacia CitaMem
     final CitaMem cita = new CitaMem();
-    // `agendaDeDoctor`, `crear`/`crearPorCodigos`, `actualizarEstado`, `citasDePaciente`, `crearPorPaciente`, `cancelarPorPaciente`
 
+    //Llamamos a los metodos de CitaMem
     public List<Cita.AgendaItem> agendaDoctor(int IdDoctor, LocalDate fecha){
         return cita.agendaDoctor(IdDoctor,fecha);
     }

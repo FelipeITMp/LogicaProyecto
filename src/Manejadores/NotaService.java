@@ -6,9 +6,10 @@ import Memoria.NotaMem;
 import java.util.List;
 
 public class NotaService {
-//abrir por código (getOrCreate), agregar texto y listar
+    // Creamos una constante e instanciamos NotaMem
     final NotaMem nota = new NotaMem();
 
+    //Llamamos a los metodos de nota
     public int ObtenerOCrearNota(int pacienteId){
         return nota.ObtenerOCrearNota(pacienteId);
     }

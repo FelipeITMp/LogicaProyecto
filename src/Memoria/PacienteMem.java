@@ -10,16 +10,18 @@ import Clases.Paciente;
 import Contratos.IPaciente;
 
 public class PacienteMem implements IPaciente {
-    // Inicialización mínima + estáticos para compartir datos entre instancias
+    //Mapas para guardar info
     static Map<String, Paciente> pacientePorCodigo = new HashMap<>();
     TreeMap<String, Paciente> PacientesPorNombre = new TreeMap<>();
 
+    //Agregamos pacientes por nombre
     public void AgregarPacientesPorNombre(){
         for(Paciente p : pacientePorCodigo.values()){
             PacientesPorNombre.put(p.getNombres().trim().toLowerCase(), p);
         }
     }
 
+    //Buscamos pacientes por su codigo
     @Override
     public Paciente.PacienteItem encontrarPorCodigo(String codigo){
         if(!pacientePorCodigo.containsKey(codigo)){
@@ -30,10 +32,12 @@ public class PacienteMem implements IPaciente {
         }
     }
 
+    //Buscamos pacientes por nombre
     @Override
     public List<Paciente.PacienteItem> buscarPorNombre(String filtro){
         List<Paciente.PacienteItem> listp = new ArrayList<>();
         String filtroNormalizado = filtro.trim().toLowerCase();
+
         for(Paciente p: PacientesPorNombre.values()){
             if(p.getNombres().trim().toLowerCase().startsWith(filtroNormalizado)){
                 listp.add(new Paciente.PacienteItem(p.getId(), p.getCedula(), p.getNombres()));
